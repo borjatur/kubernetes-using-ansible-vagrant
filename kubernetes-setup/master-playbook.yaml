@@ -57,9 +57,6 @@
     systemd:
       state: restarted
       name: docker
-#  sudo systemctl enable docker
-# sudo systemctl daemon-reload
-# sudo systemctl restart docker
 
   - name: Add vagrant user to docker group
     user:
@@ -122,14 +119,22 @@
 
   - name: Install calico pod network
     become: false
-    command: kubectl create -f https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
+    command: kubectl create -f https://docs.projectcalico.org/manifests/calico.yaml
 
   - name: Generate join command
     command: kubeadm token create --print-join-command
     register: join_command
 
   - name: Copy join command to local file
-    local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
+    copy: content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
+    delegate_to: 127.0.0.1
+    become: false
+
+  - name: Copy kubeconfig to local file
+    fetch:
+      src: /etc/kubernetes/admin.conf
+      dest: ./config
+      flat: yes
 
   handlers:
     - name: docker status
