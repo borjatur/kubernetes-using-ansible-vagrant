@@ -1,0 +1,4 @@
+---
+# handlers file for worker-node
+- name: docker status
+  service: name=docker state=started
