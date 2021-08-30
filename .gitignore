@@ -1,2 +1,3 @@
 .vagrant
-output
+*/output/config
+*/output/join-command
