@@ -1,0 +1,30 @@
+- hosts: localhost
+  environment:
+    KUBECONFIG: ./output/config
+  tasks:
+    - name: Add chart repositories
+      community.kubernetes.helm_repository:
+        name: "{{ item.name }}"
+        repo_url: "{{ item.repo }}"
+      with_items:
+        - name: prometheus
+          repo: https://prometheus-community.github.io/helm-charts
+        - name: kubernetes-dashboard
+          repo: https://kubernetes.github.io/dashboard/
+
+    - name: Run prometheus helm chart
+      community.kubernetes.helm:
+        name: prometheus
+        chart_ref: "stable/prometheus"
+        release_namespace: monitoring
+        create_namespace: true
+
+    - name: Run kubernetes-dashboard helm chart
+      community.kubernetes.helm:
+        name: kubernetes-dashboard
+        chart_ref: "kubernetes-dashboard/kubernetes-dashboard"
+        release_namespace: kubernetes-dashboard
+        create_namespace: true
+        values:
+          resources.limits.cpu: 200m
+          service.externalPort: 8080
