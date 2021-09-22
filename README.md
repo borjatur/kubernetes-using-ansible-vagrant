@@ -13,5 +13,12 @@ Because of when using vagrant you can choose the underlying SO and for my own ex
 * `export KUBECONFIG=./kubernetes-setup/output/config`
 * `kubectl cluster-info`
 * enjoy!
+
+## Local docker registry
+### In your host
+* `docker run -d -p 5000:5000 --restart=always --name registry registry:2`
+* modify your `/etc/hosts` file to include `127.0.0.1 localregistry.local`
+
+The cluster is prepared to pull images from `localregistry.local`
 ## TODO
 * Roles becoming idempotent

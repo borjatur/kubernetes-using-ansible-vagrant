@@ -5,5 +5,5 @@
     "max-size": "100m"
   },
   "storage-driver": "overlay2",
-  "insecure-registries":["10.0.2.2:5000"]
+  "insecure-registries":["localregistry.local:5000"]
 }
