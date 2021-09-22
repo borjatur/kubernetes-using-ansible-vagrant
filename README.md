@@ -9,10 +9,9 @@ The seed for this project was an blog post that was published during 2019 in htt
 Because of when using vagrant you can choose the underlying SO and for my own experience this allow you testing stuff under the most similar conditions that would run in your production clusters. Am I advising against Kind or similar? Not at all, if you want to try some services in a kubernetes cluster is almost sure you will be fine using Kind or similar but there are other cases where you need to have more control over your hosts running k8s.
 
 ## Getting started
-* vagrant up
-* export KUBECONFIG=./kubernetes-setup/output/config
-* kubectl cluster-info
+* `vagrant up`
+* `export KUBECONFIG=./kubernetes-setup/output/config`
+* `kubectl cluster-info`
 * enjoy!
-
 ## TODO
 * Roles becoming idempotent
