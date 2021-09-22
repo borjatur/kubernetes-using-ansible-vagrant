@@ -23,14 +23,14 @@
     state: present
 
 - name: Install docker and its dependecies
-  apt: 
+  apt:
     name: "{{ packages }}"
     state: present
     update_cache: yes
   vars:
     packages:
-      - docker-ce 
-      - docker-ce-cli 
+      - docker-ce
+      - docker-ce-cli
       - containerd.io
   notify:
     - docker status
@@ -67,15 +67,15 @@
     filename: kubernetes.list
 
 - name: Install Kubernetes binaries
-  apt: 
+  apt:
     name: "{{ packages }}"
     state: present
     update_cache: yes
   vars:
     packages:
-      - kubelet 
-      - kubeadm 
-      - kubectl
+      - "kubelet={{ kubernetes_version }}"
+      - "kubeadm={{ kubernetes_version }}"
+      - "kubectl={{ kubernetes_version }}"
 
 - name: Configure node ip
   lineinfile:
@@ -83,3 +83,9 @@
     line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
     create: yes
     mode: 0644
+
+- name: Configure local registry running in localhost
+  lineinfile:
+    dest: /etc/hosts
+    line: "10.0.2.2 localregistry.local"
+    state: present

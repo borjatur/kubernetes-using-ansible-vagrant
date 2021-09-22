@@ -3,7 +3,7 @@
   command: kubeadm config images pull
 
 - name: Initialize the Kubernetes cluster using kubeadm
-  command: kubeadm init --apiserver-advertise-address="192.168.50.10" --apiserver-cert-extra-sans="192.168.50.10"  --node-name k8s-master --pod-network-cidr=192.168.0.0/16
+  command: kubeadm init --apiserver-advertise-address="{{ node_ip }}" --apiserver-cert-extra-sans="{{ node_ip }}" --node-name k8s-master --pod-network-cidr="{{ pod_cidr }}"
 
 - name: Setup kubeconfig for vagrant user
   command: "{{ item }}"
@@ -27,6 +27,6 @@
 
 - name: Copy kubeconfig to local file
   fetch:
-    src: /etc/kubernetes/admin.conf
+    src: /home/vagrant/.kube/config
     dest: ./output/config
     flat: yes

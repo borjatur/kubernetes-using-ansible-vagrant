@@ -1,2 +1,4 @@
 ---
 # vars file for master-node
+pod_cidr: "192.168.0.0/16"
+node_ip: "10.0.0.10"
